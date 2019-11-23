@@ -32,12 +32,14 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 1. Installation
 
-npm install bootstrap --save
+```
+   npm install bootstrap --save
 
-and install its dependencies
+   and install its dependencies
 
-npm i jquery --save
-npm i popper --save
+   npm i jquery --save
+   npm i popper.js --save
+```
 
 2. Add Bootstrap to angular.json
 
@@ -45,12 +47,112 @@ npm i popper --save
 "apps": [{
   ...,
   "styles": [
-     "styles.css".
-     "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+     "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+     "styles.css"
   ],
   "scripts": [
      "../node_modules/jquery/dist/jquery.min.js",
+     "../node_modules/popper.js/dist/umd/popper.min.js"
      "../node_modules/bootstrap/dist/js/bootstrap.min.js"
   ],
 }]
+```
+
+be sure bootstrap script is loaded after jquery and popper
+
+## Update The routing
+
+inside app-routing.module.ts update
+
+```
+const routes: Routes = [
+  { path: "", redirectTo: "/user-list", pathMatch: "full" },
+  { path: "**", component: PageNotFoundComponent }
+];
+```
+
+create PageNotFound component that will handle bad routes
+
+```
+   ng g c page-not-found
+```
+
+## Add home and users modules
+
+lets create two more modules - home and users
+
+we will use the cli commands:
+
+ng g m pages/home --module app
+ng g m pages/users --module app --routing
+
+which means:
+
+- generate new module inside ./pages
+- `--routing` option adds routing module to the newly created module
+- register the new module in the `app` module
+
+We are storing our pages inside ./pages folder
+
+<!-- inside app.component.html -->
+
+We are using <router-outlet> as the main entry point for the components loaded by the routes
+
+Everything outside the <router-outlet> is static (the navbar)
+
+We are running the following two commands:
+
+## Add home and users components
+
+ng g c pages/users/user-list --module pages/users
+ng g c pages/users/user-details --module pages/users
+
+which will do the following:
+
+- generate new components inside the /users module
+- the newly created components are registered inside the users pages/users module
+
+we will generate a component for the home page. It doesn't have to be inside its own folder
+as it will be the only component for this module as opposite to the users module where we are having
+at least two components
+
+ng g c pages/home --module pages/home
+
+the newly created structure should look like this:
+
+```
+>pages
+ >home
+  >home-routing.module.ts
+  >home.componen.ts
+  >home.module.ts
+ >users
+  >user-details
+   >user-details.component.ts
+  >user-list
+   >user-list.component.ts
+  users.routing.module.ts
+  users.module.ts
+```
+
+## Add lazy loading and routing for the home and users modules
+
+important to know is that AppRoutingModule should be loades after the HomeModule and UsersModule. The more specific routes should be placed on top. The first route to match will be the one to be executed. This is why route with common scenarios like "" or "\*\*" should be at the bottom.
+for more information: https://angular.io/guide/router#set-up-redirects
+
+The routes for home module:
+
+```
+const routes: Routes = [
+  {path:"home", component: HomeComponent}
+];
+```
+
+the routes for users module
+
+```
+const routes: Routes = [
+  { path: "user-list", component: UserListComponent },
+  { path: "user-details/:id", component: UserDetailsComponent }
+];
 ```
