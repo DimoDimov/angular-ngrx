@@ -30,9 +30,27 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 #Add bootstrap
 
+1. Installation
+
 npm install bootstrap --save
 
 and install its dependencies
 
 npm i jquery --save
 npm i popper --save
+
+2. Add Bootstrap to angular.json
+
+```
+"apps": [{
+  ...,
+  "styles": [
+     "styles.css".
+     "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+  ],
+  "scripts": [
+     "../node_modules/jquery/dist/jquery.min.js",
+     "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+  ],
+}]
+```
