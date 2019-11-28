@@ -26,6 +26,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+Important to run this one:
+
+```
+npm install rxjs-compat --save
+```
+
 # Implementation
 
 ## Add bootstrap
@@ -83,8 +89,10 @@ lets create two more modules - home and users
 
 we will use the cli commands:
 
+```
 ng g m pages/home --module app
 ng g m pages/users --module app --routing
+```
 
 which means:
 
@@ -116,7 +124,9 @@ we will generate a component for the home page. It doesn't have to be inside its
 as it will be the only component for this module as opposite to the users module where we are having
 at least two components
 
+```
 ng g c pages/home --module pages/home
+```
 
 the newly created structure should look like this:
 
@@ -155,4 +165,52 @@ const routes: Routes = [
   { path: "user-list", component: UserListComponent },
   { path: "user-details/:id", component: UserDetailsComponent }
 ];
+```
+
+## Add services
+
+```
+ng g s services/user-services
+```
+
+inside `services` folder we will store our shared services
+we will load mocked users data from user-data.mock.ts
+
+## Adding Store
+
+```
+  npm install @ngrx/store --save
+```
+
+for angular 6+ we can just run
+
+```
+  ng add @ngrx/store
+```
+
+adding debut tool
+
+```
+  @ngrx/store-devtools
+```
+
+inside app.module.ts
+
+```
+imports: [
+  ...
+  StoreModule.forRoot({}),
+  StoreDevtoolsModule.instrument({
+    maxAge: 25 // Retains last 25 states
+  }),
+  ...
+]
+```
+
+we will initialize empty store because the store data will be loaded lazily
+
+## Add effects
+
+```
+npm install @ngrx/effects --save
 ```
