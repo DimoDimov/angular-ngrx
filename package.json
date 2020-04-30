@@ -23,7 +23,7 @@
     "@ngrx/store": "^8.5.2",
     "@ngrx/store-devtools": "^8.5.2",
     "bootstrap": "^4.3.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ngrx": "0.0.1-security",
     "popper.js": "^1.16.0",
     "rxjs": "^6.5.3",
